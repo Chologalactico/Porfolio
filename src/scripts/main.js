@@ -745,9 +745,9 @@ export default async function init() {
   // ═══════════════════════════════════════════════════════════════════════
 
   const contactLines = [
-    "Email:    jcastrosarria216@gmail.com",
-    "GitHub:   https://github.com/Chologalactico",
-    "LinkedIn: https://www.linkedin.com/in/juan-jose-castro-sarria-418921251/"
+    "Email:    @jcastrosarria216@gmail.com",
+    "GitHub:   @Chologalactico",
+    "Linkedin: @juan-jose-castro-sarria"
   ];
 
   if (reduced) {
