@@ -69,9 +69,14 @@ import mainScript from "../scripts/main.js?url";
 
     <!-- About + Stats -->
     <section class="section about-section" id="about">
+      <div class="section-header">
+        <span class="section-tag">// 01</span>
+        <h2 class="section-title">ABOUT</h2>
+        <div class="section-line"></div>
+      </div>
       <div class="about-grid">
         <div class="about-bio">
-          <h2 class="section-label">// about</h2>
+          <h2 class="section-label"></h2>
         <p class="bio-text">
           I&apos;m an AI and backend engineer focused on building production-ready systems that combine machine
           learning with scalable architectures. From LLM integrations and sentiment analysis systems to API design
@@ -101,7 +106,12 @@ import mainScript from "../scripts/main.js?url";
 
     <!-- Projects -->
     <section class="section projects-section" id="projects">
-      <h2 class="section-label">// projects</h2>
+      <div class="section-header">
+        <span class="section-tag">// 02</span>
+        <h2 class="section-title">PROJECTS</h2>
+        <div class="section-line"></div>
+      </div>
+      
 
       <div class="project-card" data-project="neurovox">
         <div class="project-content">
@@ -118,6 +128,9 @@ import mainScript from "../scripts/main.js?url";
             <span class="tech-tag">LLM</span>
             <span class="tech-tag">Vercel</span>
           </div>
+          <a href="https://sentimental-review-web.vercel.app" target="_blank" rel="noopener noreferrer" class="project-link-small">
+            Más información →
+          </a>
         </div>
         <div class="project-viz">
           <canvas class="viz-canvas" id="viz-neurovox" aria-hidden="true"></canvas>
@@ -137,6 +150,9 @@ import mainScript from "../scripts/main.js?url";
             <span class="tech-tag">Swagger</span>
             <span class="tech-tag">Vercel</span>
           </div>
+          <a href="https://foodhy.com.co" target="_blank" rel="noopener noreferrer" class="project-link-small">
+            Más información →
+          </a>
         </div>
         <div class="project-viz">
           <canvas class="viz-canvas" id="viz-foodhy" aria-hidden="true"></canvas>
@@ -156,6 +172,9 @@ import mainScript from "../scripts/main.js?url";
             <span class="tech-tag">Maven</span>
             <span class="tech-tag">Apache POI</span>
           </div>
+          <a href="https://github.com/Chologalactico/Opencart-automatic" target="_blank" rel="noopener noreferrer" class="project-link-small">
+            Más información →
+          </a>
         </div>
         <div class="project-viz">
           <canvas class="viz-canvas" id="viz-opencart" aria-hidden="true"></canvas>
@@ -179,6 +198,9 @@ import mainScript from "../scripts/main.js?url";
             <span class="tech-tag">Nodemailer</span>
             <span class="tech-tag">Swagger</span>
           </div>
+          <a href="https://senaviacorp.com/en" target="_blank" rel="noopener noreferrer" class="project-link-small">
+            Más información →
+          </a>
         </div>
         <div class="project-viz">
           <canvas class="viz-canvas" id="viz-deepsight" aria-hidden="true"></canvas>
@@ -205,8 +227,150 @@ import mainScript from "../scripts/main.js?url";
       </div>
     </section>
 
+    <!-- ── STACK ────────────────────────────────────────────────────────── -->
+    <section id="stack" class="section">
+      <div class="section-header">
+        <span class="section-tag">// 03</span>
+        <h2 class="section-title">TECH STACK</h2>
+        <div class="section-line"></div>
+      </div>
+      <div class="terminal-wrapper">
+        <div class="terminal-bar">
+          <span class="t-dot t-red"></span>
+          <span class="t-dot t-yellow"></span>
+          <span class="t-dot t-green"></span>
+          <span class="t-title">JJ@research — zsh</span>
+        </div>
+        <div class="terminal-body" id="terminal-body">
+          <div class="term-line" data-index="0">
+            <span class="term-prompt">$</span>
+            <span class="term-cmd"> pip show torch jax triton vllm</span>
+          </div>
+          <div class="term-output" data-index="1">
+            <span class="term-key">Python</span>
+            <span class="term-bar-wrap"><span class="term-bar-fill" style="--pct:80%"></span></span>
+            <span class="term-pct blue">ADVANCED</span>
+          </div>
+          <div class="term-output" data-index="1">
+            <span class="term-key">NodeJS</span>
+            <span class="term-bar-wrap"><span class="term-bar-fill" style="--pct:95%"></span></span>
+            <span class="term-pct green">3.12 // EXPERT</span>
+          </div>
+          <div class="term-output" data-index="1">
+            <span class="term-key">NextJS</span>
+            <span class="term-bar-wrap"><span class="term-bar-fill" style="--pct:95%"></span></span>
+            <span class="term-pct green">3.12 // EXPERT</span>
+          </div>
+          <div class="term-output" data-index="1">
+            <span class="term-key">NestJs</span>
+            <span class="term-bar-wrap"><span class="term-bar-fill" style="--pct:95%"></span></span>
+            <span class="term-pct green">3.12 // EXPERT</span>
+          </div>
+          <div class="term-output" data-index="2">
+            <span class="term-key">Python</span>
+            <span class="term-bar-wrap"><span class="term-bar-fill" style="--pct:95%"></span></span>
+            <span class="term-pct green">3.12 // EXPERT</span>
+          </div>
+          <div class="term-output" data-index="2">
+            <span class="term-key">PostgreSQL</span>
+            <span class="term-bar-wrap"><span class="term-bar-fill" style="--pct:95%"></span></span>
+            <span class="term-pct green">3.12 // EXPERT</span>
+          </div>
+          <div class="term-output" data-index="2">
+            <span class="term-key">SQL</span>
+            <span class="term-bar-wrap"><span class="term-bar-fill" style="--pct:95%"></span></span>
+            <span class="term-pct green">3.12 // EXPERT</span>
+          </div>
+          <div class="term-output" data-index="2">
+            <span class="term-key">REST APIs</span>
+            <span class="term-bar-wrap"><span class="term-bar-fill" style="--pct:95%"></span></span>
+            <span class="term-pct green">3.12 // EXPERT</span>
+          </div>
+          <div class="term-output" data-index="2">
+            <span class="term-key">GraphQL</span>
+            <span class="term-bar-wrap"><span class="term-bar-fill" style="--pct:95%"></span></span>
+            <span class="term-pct green">3.12 // EXPERT</span>
+          </div>
+          <div class="term-output" data-index="2">
+            <span class="term-key">Prisma</span>
+            <span class="term-bar-wrap"><span class="term-bar-fill" style="--pct:95%"></span></span>
+            <span class="term-pct green">3.12 // EXPERT</span>
+          </div>
+          <div class="term-output" data-index="2">
+            <span class="term-key">React</span>
+            <span class="term-bar-wrap"><span class="term-bar-fill" style="--pct:95%"></span></span>
+            <span class="term-pct green">3.12 // EXPERT</span>
+          </div>
+          <div class="term-output" data-index="3">
+            <span class="term-key">Java</span>
+            <span class="term-bar-wrap"><span class="term-bar-fill" style="--pct:80%"></span></span>
+            <span class="term-pct blue">ADVANCED</span>
+          </div>
+          <div class="term-output" data-index="3">
+            <span class="term-key">Astro</span>
+            <span class="term-bar-wrap"><span class="term-bar-fill" style="--pct:95%"></span></span>
+            <span class="term-pct green">3.12 // EXPERT</span>
+          </div>
+          <div class="term-output" data-index="3">
+            <span class="term-key">Maven</span>
+            <span class="term-bar-wrap"><span class="term-bar-fill" style="--pct:80%"></span></span>
+            <span class="term-pct blue">ADVANCED</span>
+          </div>
+          <div class="term-output" data-index="3">
+            <span class="term-key">RAG Architectures</span>
+            <span class="term-bar-wrap"><span class="term-bar-fill" style="--pct:85%"></span></span>
+            <span class="term-pct blue">ADVANCED</span>
+          </div>
+          <div class="term-output" data-index="3">
+            <span class="term-key">Cloud & DevOps</span>
+            <span class="term-bar-wrap"><span class="term-bar-fill" style="--pct:87%"></span></span>
+            <span class="term-pct blue">ADVANCED</span>
+          </div>
+          <div class="term-output" data-index="4">
+            <span class="term-key">AI agents</span>
+            <span class="term-bar-wrap"><span class="term-bar-fill" style="--pct:80%"></span></span>
+            <span class="term-pct blue">ADVANCED</span>
+          </div>
+          <div class="term-output" data-index="5">
+            <span class="term-key">GO</span>
+            <span class="term-bar-wrap"><span class="term-bar-fill" style="--pct:65%"></span></span>
+            <span class="term-pct purple">PROFICIENT</span>
+          </div>
+          <div class="term-output" data-index="6">
+            <span class="term-key">Docker</span>
+            <span class="term-bar-wrap"><span class="term-bar-fill" style="--pct:95%"></span></span>
+            <span class="term-pct green">3.12 // EXPERT</span>
+          </div>
+          <div class="term-output" data-index="7">
+            <span class="term-key">Angular</span>
+            <span class="term-bar-wrap"><span class="term-bar-fill" style="--pct:65%"></span></span>
+            <span class="term-pct purple  ">PROFICIENT</span>
+          </div>
+          <div class="term-line" data-index="8">
+            <span class="term-prompt">$</span>
+            <span class="term-cmd"> nvidia-smi --query-gpu=name</span>
+          </div>
+          <div class="term-output" data-index="9">
+            <span class="term-key-plain green">&gt; H100 SXM5 × 8 // 640 GB HBM3 // NVLink 4.0</span>
+          </div>
+          <div class="term-output" data-index="10">
+            <span class="term-key-plain green">&gt; A100 80GB × 32 // Cluster Node Access</span>
+          </div>
+          <div class="term-line" data-index="11">
+            <span class="term-prompt blink-cursor">$</span>
+            <span class="term-cmd"> _</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Contact terminal -->
     <section class="section contact-section" id="contact">
+      <div class="section-header">
+        <span class="section-tag">// 04</span>
+        <h2 class="section-title">CONTACTS</h2>
+        <div class="section-line"></div>
+      </div>
       <div class="terminal-block contact-terminal">
         <div class="terminal-header">
           <span class="terminal-dot red"></span>

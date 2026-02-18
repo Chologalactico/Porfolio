@@ -244,7 +244,7 @@ async function init() {
         nameTextEl,
         {
           duration: 0.6,
-          scrambleText: { text: "Juan Castro", chars: scrambleChars, speed: 0.3 }
+          scrambleText: { text: "Juan Jose Castro", chars: scrambleChars, speed: 0.3 }
         },
         "+=0.3"
       )
@@ -765,14 +765,44 @@ async function init() {
   const contactLines = [
     "Email:    @jcastrosarria216@gmail.com",
     "GitHub:   @Chologalactico",
-    "Linkedin: @juan-jose-castro-sarria"
+    "Linkedin: @Juan Jose Castro Sarria"
   ];
+
+  const linkedinUrl = "https://www.linkedin.com/in/juan-jose-castro-sarria-418921251/";
+  const githubUrl = "https://github.com/Chologalactico";
+
+  function setupLinkedinLink(lineEl) {
+    if (lineEl.textContent.includes("Linkedin:")) {
+      const text = lineEl.textContent;
+      const parts = text.split("Linkedin:");
+      if (parts.length === 2) {
+        lineEl.innerHTML = `<a href="${linkedinUrl}" target="_blank" rel="noopener noreferrer" class="contact-link">Linkedin:</a>${parts[1]}`;
+      }
+    }
+  }
+
+  function setupGithubLink(lineEl) {
+    if (lineEl.textContent.includes("GitHub:")) {
+      const text = lineEl.textContent;
+      const parts = text.split("GitHub:");
+      if (parts.length === 2) {
+        lineEl.innerHTML = `<a href="${githubUrl}" target="_blank" rel="noopener noreferrer" class="contact-link">GitHub:</a>${parts[1]}`;
+      }
+    }
+  }
 
   if (reduced) {
     const cmdEl = document.querySelector(".contact-cmd");
     if (cmdEl) cmdEl.textContent = "JJ.contact()";
     document.querySelectorAll(".contact-line").forEach((el, i) => {
       el.textContent = contactLines[i];
+      if (i === 1) {
+        // GitHub line
+        setupGithubLink(el);
+      } else if (i === 2) {
+        // Linkedin line
+        setupLinkedinLink(el);
+      }
     });
   } else {
     ScrollTrigger.create({
@@ -792,7 +822,16 @@ async function init() {
             el,
             {
               duration: 0.5,
-              scrambleText: { text: contactLines[i], chars: scrambleChars, speed: 0.3 }
+              scrambleText: { text: contactLines[i], chars: scrambleChars, speed: 0.3 },
+              onComplete: () => {
+                if (i === 1) {
+                  // GitHub line - convert to link after animation
+                  setupGithubLink(el);
+                } else if (i === 2) {
+                  // Linkedin line - convert to link after animation
+                  setupLinkedinLink(el);
+                }
+              }
             },
             `+=${i === 0 ? 0.3 : 0.1}`
           );
@@ -800,6 +839,55 @@ async function init() {
       }
     });
   }
+
+  // ═══════════════════════════════════════════════════════════════════════
+  // SECTION 6: Stack Terminal
+  // ═══════════════════════════════════════════════════════════════════════
+
+  function initTerminal() {
+    const lines = document.querySelectorAll(".term-line, .term-output");
+
+    if (reduced) {
+      lines.forEach((line) => {
+        line.style.opacity = "1";
+        line.style.transform = "none";
+      });
+      document.querySelectorAll(".term-bar-fill").forEach((bar) => {
+        bar.style.width = bar.style.getPropertyValue("--pct");
+      });
+      return;
+    }
+
+    ScrollTrigger.create({
+      trigger: "#terminal-body",
+      start: "top 82%",
+      onEnter: () => {
+        lines.forEach((line, i) => {
+          const delay = i * 0.1;
+          gsap.to(line, {
+            opacity: 1,
+            x: 0,
+            duration: 0.4,
+            delay,
+            ease: "power2.out"
+          });
+
+          const bar = line.querySelector(".term-bar-fill");
+          if (bar) {
+            const targetPct = bar.style.getPropertyValue("--pct");
+            gsap.to(bar, {
+              width: targetPct,
+              duration: 1.0,
+              delay: delay + 0.15,
+              ease: "power2.out"
+            });
+          }
+        });
+      }
+    });
+  }
+
+  initTerminal();
 }
 
 // Auto-initialize when DOM is ready

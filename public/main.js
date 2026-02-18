@@ -183,8 +183,8 @@ const scrambleChars = "01!<>-_\\/[]{}=+*^?#";
 
 if (reduced) {
   // Show text immediately in reduced motion
-  document.querySelector(".cmd-text").textContent = "jj.init()";
-  document.querySelector(".name-text").textContent = "Juan Castro";
+  document.querySelector(".cmd-text").textContent = "JJ.init()";
+  document.querySelector(".name-text").textContent = "Juan Jose Castro";
   document.querySelector(".role-text").textContent = "AI/Full Stack Engineer";
   document.querySelector(".tagline1-text").textContent = "Building intelligent systems";
   document.querySelector(".tagline2-text").textContent = "that understand the world.";
@@ -202,7 +202,7 @@ if (reduced) {
       ".name-text",
       {
         duration: 0.6,
-        scrambleText: { text: "Juan Castro", chars: scrambleChars, speed: 0.3 }
+        scrambleText: { text: "Juan Jose Castro", chars: scrambleChars, speed: 0.3 }
       },
       "+=0.3"
     )
