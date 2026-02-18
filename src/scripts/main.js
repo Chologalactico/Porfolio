@@ -1,3 +1,6 @@
+let initRetryCount = 0;
+const MAX_RETRIES = 3;
+
 async function init() {
   if (typeof window === "undefined") return;
 
@@ -201,13 +204,28 @@ async function init() {
   const scrollHintEl = document.getElementById("scroll-hint");
 
   if (!cmdTextEl || !nameTextEl || !roleTextEl || !tagline1El || !tagline2El) {
-    console.error("Terminal elements not found");
-    return;
+    if (initRetryCount < MAX_RETRIES) {
+      initRetryCount++;
+      console.warn(`Terminal elements not found, retrying (${initRetryCount}/${MAX_RETRIES})...`);
+      // Retry after a short delay
+      setTimeout(() => {
+        init().catch((error) => {
+          console.error("Error initializing portfolio after retry:", error);
+        });
+      }, 300);
+      return;
+    } else {
+      console.error("Terminal elements not found after multiple retries. Please check the HTML structure.");
+      return;
+    }
   }
+
+  // Reset retry count on success
+  initRetryCount = 0;
 
   if (reduced) {
     // Show text immediately in reduced motion
-    cmdTextEl.textContent = "jj.init()";
+    cmdTextEl.textContent = "JJ.init()";
     nameTextEl.textContent = "Juan Castro";
     roleTextEl.textContent = "AI/Full Stack Engineer";
     tagline1El.textContent = "Building intelligent systems";
@@ -220,7 +238,7 @@ async function init() {
     heroTl
       .to(cmdTextEl, {
         duration: 0.8,
-        scrambleText: { text: "jj.init()", chars: scrambleChars, speed: 0.4 }
+        scrambleText: { text: "JJ.init()", chars: scrambleChars, speed: 0.4 }
       })
       .to(
         nameTextEl,
@@ -784,25 +802,23 @@ async function init() {
   }
 }
 
-init();
-
-export default init;
-
 // Auto-initialize when DOM is ready
 if (typeof window !== "undefined") {
   const runInit = () => {
-    // Small delay to ensure all elements are rendered
+    // Wait a bit longer to ensure all elements are rendered
     setTimeout(() => {
       init().catch((error) => {
         console.error("Error initializing portfolio:", error);
       });
-    }, 100);
+    }, 200);
   };
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", runInit);
   } else {
-    // DOM is already ready
+    // DOM is already ready, but wait a bit more for Astro hydration
     runInit();
   }
 }
+
+export default init;
