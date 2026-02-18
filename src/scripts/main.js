@@ -1,4 +1,4 @@
-export default async function init() {
+async function init() {
   if (typeof window === "undefined") return;
 
   const gsapModule = await import("gsap");
@@ -783,6 +783,10 @@ export default async function init() {
     });
   }
 }
+
+init();
+
+export default init;
 
 // Auto-initialize when DOM is ready
 if (typeof window !== "undefined") {

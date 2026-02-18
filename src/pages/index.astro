@@ -1,5 +1,5 @@
 ---
-import "../scripts/main.js";
+import mainScript from "../scripts/main.js?url";
 ---
 
 <!DOCTYPE html>
@@ -228,9 +228,7 @@ import "../scripts/main.js";
       </div>
     </section>
 
-    <script type="module">
-  import "../scripts/main.js";
-</script>
+    <script type="module" src={mainScript}></script>
 
   </body>
 </html>
