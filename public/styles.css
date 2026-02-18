@@ -1,0 +1,403 @@
+:root {
+  --page-bg: #0c0c0c;
+  --page-surface: #161616;
+  --page-border: #2a2a2a;
+  --page-text: #e0e0e0;
+  --page-muted: #707070;
+  --page-green: #00ff87;
+  --page-amber: #ffb800;
+  --page-blue: #4a9eff;
+  --page-red: #ff4444;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: var(--page-bg);
+  color: var(--page-text);
+  font-family: "SF Mono", "Fira Code", "JetBrains Mono", "Cascadia Code", "Consolas", monospace;
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* ── Neural canvas background ── */
+#neural-canvas {
+  position: fixed;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.reduced-motion #neural-canvas {
+  opacity: 0.3;
+}
+
+/* ── Sections ── */
+.section {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 6rem 2rem;
+}
+
+.section-label {
+  font-size: 0.75rem;
+  color: var(--page-green);
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  margin-bottom: 2rem;
+  font-weight: 400;
+}
+
+/* ── Hero section ── */
+.hero-section {
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+/* ── Terminal block ── */
+.terminal-block {
+  background: rgba(22, 22, 22, 0.92);
+  border: 1px solid var(--page-border);
+  border-radius: 10px;
+  max-width: 600px;
+  width: 100%;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  overflow: hidden;
+}
+
+.terminal-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  background: rgba(30, 30, 30, 0.8);
+  border-bottom: 1px solid var(--page-border);
+}
+
+.terminal-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+}
+
+.terminal-dot.red {
+  background: var(--page-red);
+}
+
+.terminal-dot.yellow {
+  background: var(--page-amber);
+}
+
+.terminal-dot.green {
+  background: var(--page-green);
+}
+
+.terminal-title {
+  font-size: 0.7rem;
+  color: var(--page-muted);
+  margin-left: 0.5rem;
+}
+
+.terminal-body {
+  padding: 1.25rem;
+  font-size: clamp(0.85rem, 2vw, 1rem);
+  line-height: 1.8;
+}
+
+.terminal-line {
+  min-height: 1.6em;
+  white-space: pre-wrap;
+}
+
+.terminal-blank {
+  height: 0.8em;
+}
+
+.prompt {
+  color: var(--page-green);
+  font-weight: 700;
+}
+
+.cmd-text,
+.name-text,
+.role-text,
+.tagline1-text,
+.tagline2-text,
+.contact-cmd,
+.contact-line {
+  color: var(--page-text);
+}
+
+.name-text {
+  font-size: 1.4em;
+  font-weight: 700;
+  color: var(--page-green);
+}
+
+.role-text {
+  color: var(--page-muted);
+}
+
+.cursor {
+  display: inline-block;
+  color: var(--page-green);
+  animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+}
+
+.reduced-motion .cursor {
+  animation: none;
+  opacity: 1;
+}
+
+/* ── Scroll hint ── */
+.scroll-hint {
+  position: absolute;
+  bottom: 3rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--page-muted);
+  font-size: 0.7rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  opacity: 0;
+}
+
+.scroll-dot {
+  animation: scroll-bounce 2s ease-in-out infinite;
+}
+
+@keyframes scroll-bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(8px);
+    opacity: 0.3;
+  }
+}
+
+.reduced-motion .scroll-dot {
+  animation: none;
+}
+
+/* ── About section ── */
+.about-section {
+  padding: 8rem 2rem;
+}
+
+.about-grid {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1.2fr 0.8fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.bio-text {
+  font-size: clamp(0.9rem, 1.8vw, 1.05rem);
+  color: var(--page-muted);
+  line-height: 1.8;
+  font-family: "Inter", "SF Pro Display", system-ui, sans-serif;
+}
+
+.about-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.stat-card {
+  padding: 1.25rem 1.5rem;
+  background: var(--page-surface);
+  border: 1px solid var(--page-border);
+  border-left: 3px solid var(--page-green);
+  border-radius: 6px;
+}
+
+.stat-number {
+  display: block;
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--page-green);
+  line-height: 1.2;
+}
+
+.stat-label {
+  display: block;
+  font-size: 0.75rem;
+  color: var(--page-muted);
+  margin-top: 0.25rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* ── Projects section ── */
+.projects-section {
+  padding: 8rem 2rem;
+  min-height: auto;
+}
+
+.projects-section .section-label {
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+}
+
+.project-card {
+  max-width: 1000px;
+  margin: 0 auto 3rem;
+  background: var(--page-surface);
+  border: 1px solid var(--page-border);
+  border-radius: 10px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(60px);
+}
+
+.reduced-motion .project-card {
+  opacity: 1;
+  transform: none;
+}
+
+.project-content {
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.project-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--page-text);
+  margin-bottom: 0.75rem;
+}
+
+.project-card[data-project="neurovox"] .project-title {
+  color: var(--page-green);
+}
+
+.project-card[data-project="deepsight"] .project-title {
+  color: var(--page-amber);
+}
+
+.project-card[data-project="synthmind"] .project-title {
+  color: var(--page-blue);
+}
+
+.project-desc {
+  font-size: 0.85rem;
+  color: var(--page-muted);
+  line-height: 1.7;
+  font-family: "Inter", "SF Pro Display", system-ui, sans-serif;
+  margin-bottom: 1.25rem;
+}
+
+.project-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.tech-tag {
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--page-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.project-viz {
+  position: relative;
+  min-height: 250px;
+  background: rgba(12, 12, 12, 0.6);
+}
+
+.viz-canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* ── Contact section ── */
+.contact-section {
+  align-items: center;
+}
+
+.contact-terminal {
+  max-width: 480px;
+}
+
+.contact-cursor {
+  margin-left: 0.3rem;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .about-grid {
+    grid-template-columns: 1fr;
+    gap: 3rem;
+  }
+
+  .project-card {
+    grid-template-columns: 1fr;
+  }
+
+  .project-viz {
+    min-height: 200px;
+  }
+
+  .section {
+    padding: 4rem 1.25rem;
+  }
+
+  .terminal-block {
+    max-width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .terminal-body {
+    font-size: 0.8rem;
+    padding: 1rem;
+  }
+
+  .name-text {
+    font-size: 1.2em;
+  }
+}
