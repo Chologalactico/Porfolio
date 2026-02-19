@@ -573,11 +573,12 @@ async function init() {
   const vizFoodhy = setupVizCanvas("viz-foodhy");
   if (vizFoodhy) {
     let fhTime = 0;
-    const fhNodes = Array.from({ length: 28 }, (_, i) => ({
-      angle: (i / 28) * Math.PI * 2,
-      radius: 30 + Math.random() * 70,
-      speed: 0.004 + Math.random() * 0.01,
-      size: 1.5 + Math.random() * 2.5
+    const fhDots = Array.from({ length: 36 }, () => ({
+      x: Math.random(),
+      y: Math.random(),
+      vx: (Math.random() - 0.5) * 0.003,
+      vy: (Math.random() - 0.5) * 0.003,
+      r: 1.5 + Math.random() * 2.5
     }));
 
     function renderFoodhy() {
@@ -585,27 +586,41 @@ async function init() {
       ctx.clearRect(0, 0, w, h);
       fhTime += 0.02;
 
-      const cx = w / 2;
-      const cy = h / 2;
-      const scale = Math.min(w, h) / 220;
-
-      ctx.strokeStyle = "rgba(0, 255, 135, 0.18)";
+      // Soft grid
+      ctx.strokeStyle = "rgba(0, 255, 135, 0.08)";
       ctx.lineWidth = 1;
-      ctx.beginPath();
-      ctx.ellipse(cx, cy, 90 * scale, 50 * scale, 0, 0, Math.PI * 2);
-      ctx.stroke();
+      const cols = 6;
+      const rows = 4;
+      for (let i = 1; i < cols; i++) {
+        const x = (i / cols) * w;
+        ctx.beginPath();
+        ctx.moveTo(x, 16);
+        ctx.lineTo(x, h - 16);
+        ctx.stroke();
+      }
+      for (let j = 1; j < rows; j++) {
+        const y = (j / rows) * h;
+        ctx.beginPath();
+        ctx.moveTo(16, y);
+        ctx.lineTo(w - 16, y);
+        ctx.stroke();
+      }
 
-      fhNodes.forEach((node, index) => {
-        const angle = node.angle + fhTime * node.speed * (index % 2 === 0 ? 1 : -1);
-        const r = node.radius * scale;
-        const x = cx + Math.cos(angle) * r;
-        const y = cy + Math.sin(angle) * r * 0.7;
-        const glow = ctx.createRadialGradient(x, y, 0, x, y, 8);
-        glow.addColorStop(0, "rgba(0, 255, 135, 0.7)");
+      // Dots flow
+      fhDots.forEach((dot) => {
+        dot.x += dot.vx;
+        dot.y += dot.vy;
+        if (dot.x < 0 || dot.x > 1) dot.vx *= -1;
+        if (dot.y < 0 || dot.y > 1) dot.vy *= -1;
+        const px = dot.x * w;
+        const py = dot.y * h;
+        const pulse = 0.4 + Math.sin(fhTime * 2 + (px + py) * 0.01) * 0.4;
+        const glow = ctx.createRadialGradient(px, py, 0, px, py, 10);
+        glow.addColorStop(0, `rgba(0, 255, 135, ${pulse})`);
         glow.addColorStop(1, "rgba(0, 255, 135, 0)");
         ctx.fillStyle = glow;
         ctx.beginPath();
-        ctx.arc(x, y, node.size * scale * 2, 0, Math.PI * 2);
+        ctx.arc(px, py, dot.r * 2, 0, Math.PI * 2);
         ctx.fill();
       });
     }
@@ -629,6 +644,10 @@ async function init() {
     if (reduced) {
       vizFoodhy.resize();
       renderFoodhy();
+    } else {
+      // Start immediately in case ScrollTrigger doesn't fire on load
+      vizFoodhy.resize();
+      vizFoodhy.start(renderFoodhy);
     }
   }
 
@@ -818,6 +837,74 @@ async function init() {
     if (reduced) {
       vizSM.resize();
       renderSynthmind();
+    }
+  }
+
+  // ── Viz 4: Pocket — Orbiting Squares ──
+
+  const vizPocket = setupVizCanvas("viz-pocket");
+  if (vizPocket) {
+    let pkTime = 0;
+    const pkSquares = Array.from({ length: 26 }, () => ({
+      angle: Math.random() * Math.PI * 2,
+      radius: 18 + Math.random() * 90,
+      speed: 0.004 + Math.random() * 0.01,
+      size: 4 + Math.random() * 6,
+      phase: Math.random() * Math.PI * 2
+    }));
+
+    function renderPocket() {
+      const { ctx, w, h } = vizPocket;
+      ctx.clearRect(0, 0, w, h);
+      pkTime += 0.02;
+
+      const cx = w / 2;
+      const cy = h / 2;
+      const scale = Math.min(w, h) / 240;
+
+      // soft grid pulse
+      ctx.strokeStyle = "rgba(155, 107, 255, 0.12)";
+      ctx.lineWidth = 1;
+      for (let i = 0; i < 4; i++) {
+        const inset = 12 + i * 18;
+        ctx.strokeRect(inset, inset, w - inset * 2, h - inset * 2);
+      }
+
+      pkSquares.forEach((sq, i) => {
+        const angle = sq.angle + pkTime * sq.speed * (i % 2 === 0 ? 1 : -1);
+        const r = sq.radius * scale;
+        const x = cx + Math.cos(angle) * r;
+        const y = cy + Math.sin(angle) * r;
+        const pulse = 0.4 + Math.sin(pkTime * 2 + sq.phase) * 0.4;
+
+        ctx.save();
+        ctx.translate(x, y);
+        ctx.rotate(angle + pkTime * 0.8);
+        ctx.fillStyle = `rgba(155, 107, 255, ${pulse})`;
+        ctx.fillRect(-sq.size / 2, -sq.size / 2, sq.size, sq.size);
+        ctx.restore();
+      });
+    }
+
+    ScrollTrigger.create({
+      trigger: "#viz-pocket",
+      start: "top 90%",
+      end: "bottom 10%",
+      onEnter: () => {
+        vizPocket.resize();
+        vizPocket.start(renderPocket);
+      },
+      onLeave: () => vizPocket.stop(),
+      onEnterBack: () => {
+        vizPocket.resize();
+        vizPocket.start(renderPocket);
+      },
+      onLeaveBack: () => vizPocket.stop()
+    });
+
+    if (reduced) {
+      vizPocket.resize();
+      renderPocket();
     }
   }
 

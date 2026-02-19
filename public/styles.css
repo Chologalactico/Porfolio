@@ -416,7 +416,7 @@ body.nav-open {
 
 .bio-text {
   font-size: clamp(0.9rem, 1.8vw, 1.05rem);
-  color: var(--page-muted);
+  color: #d0d0d0;
   line-height: 1.8;
   font-family: "Inter", "SF Pro Display", system-ui, sans-serif;
 }
@@ -670,9 +670,13 @@ body.nav-open {
   color: var(--page-blue);
 }
 
+.project-card[data-project="pocket"] .project-title {
+  color: var(--accent-purple);
+}
+
 .project-desc {
   font-size: 0.85rem;
-  color: var(--page-muted);
+  color: #d0d0d0;
   line-height: 1.7;
   font-family: "Inter", "SF Pro Display", system-ui, sans-serif;
   margin-bottom: 1.25rem;
@@ -692,6 +696,12 @@ body.nav-open {
   color: var(--page-muted);
   text-transform: uppercase;
   letter-spacing: 0.04em;
+}
+
+.tech-tag-red {
+  background: rgba(255, 59, 48, 0.2);
+  color: #ff3b30;
+  border: 1px solid rgba(255, 59, 48, 0.3);
 }
 
 .project-link-small {
