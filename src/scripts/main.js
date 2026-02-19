@@ -41,6 +41,75 @@ async function init() {
 
   const dur = (d) => (reduced ? 0 : d);
 
+  // ── Nav animation ──
+  const navLogo = document.querySelector(".nav-logo");
+  const navLinks = Array.from(document.querySelectorAll(".nav-link"));
+  const navToggle = document.querySelector(".nav-toggle");
+  const navItems = [navLogo, navToggle, ...navLinks].filter(Boolean);
+
+  if (navItems.length) {
+    if (reduced) {
+      navItems.forEach((el) => {
+        el.style.opacity = "1";
+        el.style.transform = "none";
+      });
+    } else {
+      gsap.set(navItems, { opacity: 0, y: -10 });
+      gsap.to(navItems, {
+        opacity: 1,
+        y: 0,
+        duration: 0.6,
+        ease: "expo.out",
+        stagger: 0.08,
+        delay: 0.2
+      });
+    }
+  }
+
+  if (navToggle) {
+    let lockScrollY = 0;
+    const siteNav = document.querySelector(".site-nav");
+    const setNavOpen = (open) => {
+      navToggle.setAttribute("aria-expanded", String(open));
+      if (open) {
+        lockScrollY = window.scrollY || window.pageYOffset || 0;
+        document.body.style.top = `-${lockScrollY}px`;
+      } else {
+        document.body.style.top = "";
+      }
+      document.body.classList.toggle("nav-open", open);
+      if (!open && lockScrollY) {
+        window.scrollTo(0, lockScrollY);
+      }
+    };
+
+    navToggle.addEventListener("click", () => {
+      const isOpen = navToggle.getAttribute("aria-expanded") === "true";
+      setNavOpen(!isOpen);
+    });
+
+    navLinks.forEach((link) => {
+      link.addEventListener("click", () => setNavOpen(false));
+    });
+
+    document.addEventListener("click", (event) => {
+      const isOpen = navToggle.getAttribute("aria-expanded") === "true";
+      if (!isOpen) return;
+      if (siteNav && siteNav.contains(event.target)) return;
+      setNavOpen(false);
+    });
+
+    document.addEventListener("keydown", (event) => {
+      if (event.key !== "Escape") return;
+      const isOpen = navToggle.getAttribute("aria-expanded") === "true";
+      if (isOpen) setNavOpen(false);
+    });
+
+    window.addEventListener("resize", () => {
+      if (window.innerWidth > 768) setNavOpen(false);
+    });
+  }
+
   // ═══════════════════════════════════════════════════════════════════════
   // SECTION 1: Neural Network Canvas Background
   // ═══════════════════════════════════════════════════════════════════════
@@ -756,47 +825,31 @@ async function init() {
   // SECTION 5: Contact Terminal
   // ═══════════════════════════════════════════════════════════════════════
 
-  const contactLines = [
-    "Email:    @jcastrosarria216@gmail.com",
-    "GitHub:   @Chologalactico",
-    "Linkedin: @Juan Jose Castro Sarria"
-  ];
-
   const linkedinUrl = "https://www.linkedin.com/in/juan-jose-castro-sarria-418921251/";
   const githubUrl = "https://github.com/Chologalactico";
+  const emailUrl = "mailto:jcastrosarria216@gmail.com";
 
-  function setupLinkedinLink(lineEl) {
-    if (lineEl.textContent.includes("Linkedin:")) {
-      const text = lineEl.textContent;
-      const parts = text.split("Linkedin:");
-      if (parts.length === 2) {
-        lineEl.innerHTML = `<a href="${linkedinUrl}" target="_blank" rel="noopener noreferrer" class="contact-link">Linkedin:</a>${parts[1]}`;
-      }
-    }
-  }
+  const contactItems = [
+    { label: "Email:", value: "@jcastrosarria216@gmail.com", href: emailUrl },
+    { label: "GitHub:", value: "@Chologalactico", href: githubUrl },
+    { label: "LinkedIn:", value: "@Juan Jose Castro Sarria", href: linkedinUrl }
+  ];
 
-  function setupGithubLink(lineEl) {
-    if (lineEl.textContent.includes("GitHub:")) {
-      const text = lineEl.textContent;
-      const parts = text.split("GitHub:");
-      if (parts.length === 2) {
-        lineEl.innerHTML = `<a href="${githubUrl}" target="_blank" rel="noopener noreferrer" class="contact-link">GitHub:</a>${parts[1]}`;
-      }
+  function renderContactLine(textEl, item) {
+    if (!textEl) return;
+    if (item.href) {
+      textEl.innerHTML = `<a href="${item.href}" target="_blank" rel="noopener noreferrer" class="contact-link">${item.label}</a> ${item.value}`;
+      return;
     }
+    textEl.textContent = `${item.label} ${item.value}`;
   }
 
   if (reduced) {
     const cmdEl = document.querySelector(".contact-cmd");
     if (cmdEl) cmdEl.textContent = "JJ.contact()";
     document.querySelectorAll(".contact-line").forEach((el, i) => {
-      el.textContent = contactLines[i];
-      if (i === 1) {
-        // GitHub line
-        setupGithubLink(el);
-      } else if (i === 2) {
-        // Linkedin line
-        setupLinkedinLink(el);
-      }
+      const textEl = el.querySelector(".contact-line-text");
+      renderContactLine(textEl, contactItems[i]);
     });
   } else {
     ScrollTrigger.create({
@@ -812,19 +865,19 @@ async function init() {
         });
 
         document.querySelectorAll(".contact-line").forEach((el, i) => {
+          const textEl = el.querySelector(".contact-line-text");
+          if (!textEl) return;
           contactTl.to(
-            el,
+            textEl,
             {
               duration: 0.5,
-              scrambleText: { text: contactLines[i], chars: scrambleChars, speed: 0.3 },
+              scrambleText: {
+                text: `${contactItems[i].label} ${contactItems[i].value}`,
+                chars: scrambleChars,
+                speed: 0.3
+              },
               onComplete: () => {
-                if (i === 1) {
-                  // GitHub line - convert to link after animation
-                  setupGithubLink(el);
-                } else if (i === 2) {
-                  // Linkedin line - convert to link after animation
-                  setupLinkedinLink(el);
-                }
+                renderContactLine(textEl, contactItems[i]);
               }
             },
             `+=${i === 0 ? 0.3 : 0.1}`
