@@ -1,5 +1,5 @@
 ---
-import mainScript from "../scripts/main.js?url";
+// Script will be imported via script tag
 ---
 
 <!DOCTYPE html>
@@ -395,7 +395,8 @@ import mainScript from "../scripts/main.js?url";
       </div>
     </section>
 
-    <script type="module" src={mainScript}></script>
-
+    <script>
+      import "../scripts/main.js";
+    </script>
   </body>
 </html>

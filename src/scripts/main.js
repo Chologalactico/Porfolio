@@ -1,25 +1,19 @@
+// Static imports at the top - these will be bundled by Vite
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { SplitText } from "gsap/SplitText";
+import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
+import { TextPlugin } from "gsap/TextPlugin";
+import Lenis from "lenis";
+import "lenis/dist/lenis.css";
+import { initDemoShell } from "./shared/demo-shell.js";
+import { prefersReducedMotion } from "./shared/a11y.js";
+
 let initRetryCount = 0;
 const MAX_RETRIES = 3;
 
 async function init() {
   if (typeof window === "undefined") return;
-
-  const gsapModule = await import("gsap");
-  const ScrollTriggerModule = await import("gsap/ScrollTrigger");
-  const SplitTextModule = await import("gsap/SplitText");
-  const ScrambleTextPluginModule = await import("gsap/ScrambleTextPlugin");
-  const TextPluginModule = await import("gsap/TextPlugin");
-  const LenisModule = await import("lenis");
-  await import("lenis/dist/lenis.css");
-  const { initDemoShell } = await import("./shared/demo-shell.js");
-  const { prefersReducedMotion } = await import("./shared/a11y.js");
-
-  const gsap = gsapModule.default;
-  const ScrollTrigger = ScrollTriggerModule.ScrollTrigger;
-  const SplitText = SplitTextModule.SplitText;
-  const ScrambleTextPlugin = ScrambleTextPluginModule.ScrambleTextPlugin;
-  const TextPlugin = TextPluginModule.TextPlugin;
-  const Lenis = LenisModule.default;
 
   gsap.registerPlugin(ScrollTrigger, SplitText, ScrambleTextPlugin, TextPlugin);
 
