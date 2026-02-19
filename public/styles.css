@@ -446,7 +446,7 @@ body.nav-open {
 .stat-label {
   display: block;
   font-size: 0.75rem;
-  color: var(--page-muted);
+  color: #bdbdbd;
   margin-top: 0.25rem;
   text-transform: uppercase;
   letter-spacing: 0.08em;
@@ -696,6 +696,48 @@ body.nav-open {
   color: var(--page-muted);
   text-transform: uppercase;
   letter-spacing: 0.04em;
+}
+
+.project-card[data-project="neurovox"] .tech-tag {
+  background: rgba(0, 255, 135, 0.12);
+  color: #bfffe2;
+  border: 1px solid rgba(0, 255, 135, 0.25);
+}
+
+.project-card[data-project="foodhy"] .tech-tag {
+  background: rgba(0, 255, 135, 0.12);
+  color: #bfffe2;
+  border: 1px solid rgba(0, 255, 135, 0.25);
+}
+
+.project-card[data-project="opencart"] .tech-tag {
+  background: rgba(255, 184, 0, 0.12);
+  color: #ffe1a3;
+  border: 1px solid rgba(255, 184, 0, 0.25);
+}
+
+.project-card[data-project="deepsight"] .tech-tag {
+  background: rgba(255, 184, 0, 0.12);
+  color: #ffe1a3;
+  border: 1px solid rgba(255, 184, 0, 0.25);
+}
+
+.project-card[data-project="synthmind"] .tech-tag {
+  background: rgba(74, 158, 255, 0.14);
+  color: #c9e0ff;
+  border: 1px solid rgba(74, 158, 255, 0.28);
+}
+
+.project-card[data-project="pocket"] .tech-tag {
+  background: rgba(155, 107, 255, 0.14);
+  color: #e1d2ff;
+  border: 1px solid rgba(155, 107, 255, 0.28);
+}
+
+.project-card .tech-tag.tech-tag-red {
+  background: rgba(255, 68, 68, 0.18);
+  color: #ffd0d0;
+  border: 1px solid rgba(255, 68, 68, 0.35);
 }
 
 .tech-tag-red {
