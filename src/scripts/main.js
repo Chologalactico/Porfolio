@@ -704,6 +704,136 @@ async function init() {
     }
   }
 
+  // ── Viz 1d: stealthis — Diagonal Code Streams ──
+
+  const vizStealthis = setupVizCanvas("viz-stealthis");
+  if (vizStealthis) {
+    let stTime = 0;
+    const stStreams = Array.from({ length: 18 }, () => ({
+      x: Math.random(),
+      y: Math.random(),
+      speed: 0.006 + Math.random() * 0.01,
+      length: 0.15 + Math.random() * 0.3,
+      width: 1 + Math.random() * 1.5
+    }));
+
+    function renderStealthis() {
+      const { ctx, w, h } = vizStealthis;
+      ctx.clearRect(0, 0, w, h);
+      stTime += 0.02;
+
+      ctx.strokeStyle = "rgba(0, 255, 135, 0.2)";
+      ctx.lineWidth = 1;
+      for (let i = 0; i < 5; i++) {
+        const inset = 16 + i * 18;
+        ctx.strokeRect(inset, inset, w - inset * 2, h - inset * 2);
+      }
+
+      stStreams.forEach((stream, i) => {
+        stream.y += stream.speed;
+        if (stream.y > 1.2) {
+          stream.y = -0.2;
+          stream.x = Math.random();
+          stream.speed = 0.006 + Math.random() * 0.01;
+          stream.length = 0.15 + Math.random() * 0.3;
+        }
+
+        const x = stream.x * w;
+        const y = stream.y * h;
+        const len = stream.length * h;
+        const angle = Math.PI / 4;
+        const dx = Math.cos(angle) * len;
+        const dy = Math.sin(angle) * len;
+        const alpha = 0.25 + Math.sin(stTime + i) * 0.2;
+
+        ctx.strokeStyle = `rgba(0, 255, 135, ${alpha})`;
+        ctx.lineWidth = stream.width;
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.lineTo(x + dx, y + dy);
+        ctx.stroke();
+      });
+    }
+
+    ScrollTrigger.create({
+      trigger: "#viz-stealthis",
+      start: "top 90%",
+      end: "bottom 10%",
+      onEnter: () => {
+        vizStealthis.resize();
+        vizStealthis.start(renderStealthis);
+      },
+      onLeave: () => vizStealthis.stop(),
+      onEnterBack: () => {
+        vizStealthis.resize();
+        vizStealthis.start(renderStealthis);
+      },
+      onLeaveBack: () => vizStealthis.stop()
+    });
+
+    if (reduced) {
+      vizStealthis.resize();
+      renderStealthis();
+    }
+  }
+
+  // ── Viz 1e: EventCore — Pulsing Grid ──
+
+  const vizEventCore = setupVizCanvas("viz-eventcore");
+  if (vizEventCore) {
+    let ecTime = 0;
+
+    function renderEventCore() {
+      const { ctx, w, h } = vizEventCore;
+      ctx.clearRect(0, 0, w, h);
+      ecTime += 0.03;
+
+      const cellSize = 18;
+      const cols = Math.ceil(w / cellSize);
+      const rows = Math.ceil(h / cellSize);
+
+      for (let col = 0; col < cols; col++) {
+        for (let row = 0; row < rows; row++) {
+          const x = col * cellSize;
+          const y = row * cellSize;
+          const wave = Math.sin(ecTime + (col + row) * 0.35) * 0.5 + 0.5;
+          const intensity = Math.max(0, wave - 0.15);
+          if (intensity <= 0.02) continue;
+
+          ctx.fillStyle = `rgba(255, 184, 0, ${intensity * 0.75})`;
+          ctx.fillRect(x + 2, y + 2, cellSize - 4, cellSize - 4);
+        }
+      }
+
+      ctx.strokeStyle = "rgba(255, 184, 0, 0.2)";
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      ctx.rect(12, 12, w - 24, h - 24);
+      ctx.stroke();
+    }
+
+    ScrollTrigger.create({
+      trigger: "#viz-eventcore",
+      start: "top 90%",
+      end: "bottom 10%",
+      onEnter: () => {
+        vizEventCore.resize();
+        vizEventCore.start(renderEventCore);
+      },
+      onLeave: () => vizEventCore.stop(),
+      onEnterBack: () => {
+        vizEventCore.resize();
+        vizEventCore.start(renderEventCore);
+      },
+      onLeaveBack: () => vizEventCore.stop()
+    });
+
+    if (reduced) {
+      vizEventCore.resize();
+      renderEventCore();
+    }
+  }
+
   // ── Viz 2: DeepSight — Particle Eye Cluster ──
 
   const vizDS = setupVizCanvas("viz-deepsight");

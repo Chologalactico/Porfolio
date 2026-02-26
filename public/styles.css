@@ -674,6 +674,14 @@ body.nav-open {
   color: var(--accent-purple);
 }
 
+.project-card[data-project="stealthis"] .project-title {
+  color: var(--page-green);
+}
+
+.project-card[data-project="eventcore"] .project-title {
+  color: var(--page-amber);
+}
+
 .project-desc {
   font-size: 0.85rem;
   color: #d0d0d0;
@@ -732,6 +740,18 @@ body.nav-open {
   background: rgba(155, 107, 255, 0.14);
   color: #e1d2ff;
   border: 1px solid rgba(155, 107, 255, 0.28);
+}
+
+.project-card[data-project="stealthis"] .tech-tag {
+  background: rgba(0, 255, 135, 0.12);
+  color: #bfffe2;
+  border: 1px solid rgba(0, 255, 135, 0.25);
+}
+
+.project-card[data-project="eventcore"] .tech-tag {
+  background: rgba(255, 184, 0, 0.12);
+  color: #ffe1a3;
+  border: 1px solid rgba(255, 184, 0, 0.25);
 }
 
 .project-card .tech-tag.tech-tag-red {
