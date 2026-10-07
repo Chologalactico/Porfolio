@@ -1038,6 +1038,78 @@ async function init() {
     }
   }
 
+  // ── TheInk viz ──────────────────────────────────────────────────────
+  const vizTheInk = setupVizCanvas("viz-theink");
+  if (vizTheInk) {
+    let inkTime = 0;
+    const inkDrops = Array.from({ length: 30 }, () => ({
+      x: Math.random(),
+      y: Math.random(),
+      r: 2 + Math.random() * 4,
+      phase: Math.random() * Math.PI * 2,
+      speed: 0.005 + Math.random() * 0.008,
+      drift: (Math.random() - 0.5) * 0.002
+    }));
+
+    function renderTheInk() {
+      const { ctx, w, h } = vizTheInk;
+      ctx.clearRect(0, 0, w, h);
+      inkTime += 0.02;
+
+      ctx.strokeStyle = "rgba(220, 180, 100, 0.08)";
+      ctx.lineWidth = 1;
+      for (let i = 1; i <= 5; i++) {
+        const r = i * Math.min(w, h) * 0.09;
+        ctx.beginPath();
+        ctx.arc(w / 2, h / 2, r, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      inkDrops.forEach((drop) => {
+        drop.x += drop.drift;
+        drop.y += Math.sin(inkTime + drop.phase) * 0.001;
+        if (drop.x < 0 || drop.x > 1) drop.drift *= -1;
+        if (drop.y < 0) drop.y = 1;
+        if (drop.y > 1) drop.y = 0;
+        const px = drop.x * w;
+        const py = drop.y * h;
+        const pulse = 0.3 + Math.sin(inkTime * 1.5 + drop.phase) * 0.5;
+        const spread = drop.r * (1 + Math.sin(inkTime + drop.phase) * 0.3);
+        const glow = ctx.createRadialGradient(px, py, 0, px, py, spread * 3);
+        glow.addColorStop(0, `rgba(220, 180, 100, ${pulse})`);
+        glow.addColorStop(1, "rgba(220, 180, 100, 0)");
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.arc(px, py, spread * 3, 0, Math.PI * 2);
+        ctx.fill();
+      });
+    }
+
+    ScrollTrigger.create({
+      trigger: "#viz-theink",
+      start: "top 90%",
+      end: "bottom 10%",
+      onEnter: () => {
+        vizTheInk.resize();
+        vizTheInk.start(renderTheInk);
+      },
+      onLeave: () => vizTheInk.stop(),
+      onEnterBack: () => {
+        vizTheInk.resize();
+        vizTheInk.start(renderTheInk);
+      },
+      onLeaveBack: () => vizTheInk.stop()
+    });
+
+    if (reduced) {
+      vizTheInk.resize();
+      renderTheInk();
+    } else {
+      vizTheInk.resize();
+      vizTheInk.start(renderTheInk);
+    }
+  }
+
   // ═══════════════════════════════════════════════════════════════════════
   // SECTION 5: Contact Terminal
   // ═══════════════════════════════════════════════════════════════════════
